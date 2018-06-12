@@ -1,5 +1,19 @@
 # -*- coding: utf-8 -*-
 """
+Created on Fri Jun  8 11:36:04 2018
+
+@author: hungn
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun  8 11:03:57 2018
+
+@author: hungn
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Jun  4 15:42:47 2018
 
 @author: hungn
@@ -50,7 +64,7 @@ X_final_validate_tfidf = tfidf_transformer.transform(X_final_validate_result)
 X_final_validate_tfidf.shape
 
 #MODIFY Y LABEL DATA
-data['modified description'] = data['name'].str[:2]
+data['modified description'] = data['name']
 y_train = data['modified description']
 
 #Encoding categorical data ( Y Labels to categories)
@@ -59,16 +73,14 @@ labelencoder_Y = LabelEncoder()
 y_train[:] = labelencoder_Y.fit_transform(y_train[:])
 
 #Splitting dataset into training set and test set
-from sklearn.cross_validation import train_test_split
-X_train, X_test, Y_train, Y_test = train_test_split(X_train_tfidf, y_train, test_size = 0.2, random_state = 0)
+#from sklearn.cross_validation import train_test_split
+#X_train, X_test, Y_train, Y_test = train_test_split(X_train_tfidf, y_train, test_size = 0.2, random_state = 0)
 
 #Method 1: Naive Bayes Classfier 
-from sklearn.naive_bayes import MultinomialNB
-NBclassifier = MultinomialNB().fit(X_train, Y_train)
 
-#Testing Naive Bayes Classifier
-predicted = NBclassifier.predict(X_test)
-np.mean(predicted == Y_test)
+
+from sklearn.naive_bayes import MultinomialNB
+NBclassifier = MultinomialNB().fit(X_train_tfidf, y_train)
 
 #Validate on Sample.csv file
 sample_predicted = NBclassifier.predict(X_final_validate_tfidf)
@@ -76,10 +88,6 @@ y_final_validate_result = pd.DataFrame(list(labelencoder_Y.inverse_transform(sam
 #result
 result = pd.concat([x_final_validate_result, y_final_validate_result], axis = 1)
 
-#Confusion Matrix
-from sklearn.metrics import confusion_matrix
-matrix1 = confusion_matrix(Y_test, predicted)
-
-writer = pd.ExcelWriter('TF-IDF, Naive Bayes.xlsx')
+writer = pd.ExcelWriter('TF-IDF, Naive Bayes on Full Sparse Dataset.xlsx')
 
 result.to_excel(writer, 'Sheet1')
