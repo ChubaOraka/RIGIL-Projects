@@ -6,7 +6,7 @@ Created on Mon Jun  4 15:42:47 2018
 """
 
 import pandas as pd
-import numpy as np
+#import numpy as np
 import nltk
 from nltk.corpus import stopwords
 
@@ -49,20 +49,30 @@ X_train_tfidf.shape
 X_final_validate_tfidf = tfidf_transformer.transform(X_final_validate_result)
 X_final_validate_tfidf.shape
 
-#MODIFY Y LABEL DATA
-data['modified description'] = data['name'].str[:2]
-y_train = data['modified description']
+#LOAD Y LABEL DATA
+y_train = data['name']
+
 
 #Encoding categorical data ( Y Labels to categories)
 from sklearn.preprocessing import LabelEncoder
 labelencoder_Y = LabelEncoder()
 y_train[:] = labelencoder_Y.fit_transform(y_train[:])
 
+
+
 #Splitting dataset into training set and test set
 from sklearn.cross_validation import train_test_split
 X_train, X_test, Y_train, Y_test = train_test_split(X_train_tfidf, y_train, test_size = 0.2, random_state = 0)
 
 #Method 1: Naive Bayes Classfier 
+
+########################################3
+from lib.naivebayesclassifier import NB
+
+NBclassifier = NB(X_train, Y_train)
+NBclassifier.multinomial()
+NBclassifier.test(X_test, Y_test)
+"""
 from sklearn.naive_bayes import MultinomialNB
 NBclassifier = MultinomialNB().fit(X_train, Y_train)
 
@@ -80,6 +90,8 @@ result = pd.concat([x_final_validate_result, y_final_validate_result], axis = 1)
 from sklearn.metrics import confusion_matrix
 matrix1 = confusion_matrix(Y_test, predicted)
 
-writer = pd.ExcelWriter('TF-IDF, Naive Bayes.xlsx')
+#print (matrix1)
+#writer = pd.ExcelWriter('TF-IDF, Naive Bayes.xlsx')
 
-result.to_excel(writer, 'Sheet1')
+#result.to_excel(writer, 'Sheet1')
+"""
