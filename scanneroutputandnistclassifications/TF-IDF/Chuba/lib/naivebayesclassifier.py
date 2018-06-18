@@ -44,19 +44,19 @@ class NB():
     def test(self, X_test, Y_test):
         print("Running tests")
         predicted = self.NBclassifier.predict(X_test)
-        np.mean(predicted == Y_test)
+        accuracy = np.mean(predicted == Y_test)
+        print("You have an accuracy of ", accuracy)
         from sklearn.metrics import confusion_matrix
         matrix1 = confusion_matrix(Y_test, predicted)
         print(matrix1)
         
-    def validate(self, x_input, y_output, labelencoder):
+    def validate(self, x_raw_input, x_trans_input, labelencoder):
         #Validate on Sample.csv file
-        sample_predicted = self.NBclassifier.predict(x_input)
+        sample_predicted = self.NBclassifier.predict(x_trans_input)
         
         y_output = pd.DataFrame(list(labelencoder.inverse_transform(sample_predicted)))
         #result
-        result = pd.concat([x_input, y_output], axis = 1)
-        print(result)
+        result = pd.concat([x_raw_input, y_output], axis = 1)
         #writer = pd.ExcelWriter('TF-IDF, Naive Bayes on Full Sparse Dataset.xlsx')
         
         #result.to_excel(writer, 'Sheet1')

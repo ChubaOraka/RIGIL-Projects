@@ -16,14 +16,11 @@ nltk.download('stopwords')
 
 
 
-file = pd.read_csv('sample.csv')
 
 
 
 
 
-#Test data
-x_final_validate_result = file['description']
 
 #Train_Data
 data = pd.read_csv('data.csv')
@@ -37,8 +34,13 @@ count_vect = CountVectorizer(max_features = 2000, min_df = 3, max_df = 0.6, stop
 X_train_counts = count_vect.fit_transform(x_train )
 X_train_counts.shape
 
-X_final_validate_result = count_vect.transform(x_final_validate_result)
-X_final_validate_result.shape
+
+#Test data
+file = pd.read_csv('sample.csv')
+x_final_validate_result = file['description']
+
+X_final_validate_result = count_vect.transform(x_final_validate_result) # QUESTION: would fit_transform have been better here?
+X_final_validate_result.shape                                           # ANSWER: Nope. Tried it and got this error: "ValueError: Input has n_features=188 while the model has been trained with n_features=910"
 
 #TFIDF Model
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -64,14 +66,26 @@ y_train[:] = labelencoder_Y.fit_transform(y_train[:])
 from sklearn.cross_validation import train_test_split
 X_train, X_test, Y_train, Y_test = train_test_split(X_train_tfidf, y_train, test_size = 0.2, random_state = 0)
 
+
+
+########################################
 #Method 1: Naive Bayes Classfier 
 
-########################################3
+
 from lib.naivebayesclassifier import NB
 
-NBclassifier = NB(X_train, Y_train)
-NBclassifier.multinomial()
-NBclassifier.test(X_test, Y_test)
+print("Testing the model ...")
+NBclassifierTest = NB(X_train, Y_train) # Initialize Naive-Bayes object
+NBclassifierTest.multinomial()          # Run Multinomial Naive-Bayes classifier
+NBclassifierTest.test(X_test, Y_test)   # Run test on model
+
+print("Regenerating model and running on entire data ...")
+NBclassifier = NB(X_train_tfidf, y_train) # Initialize Naive-Bayes object
+NBclassifier.multinomial()          # Run Multinomial Naive-Bayes classifier
+NBclassifier.validate(x_final_validate_result, X_final_validate_tfidf, labelencoder_Y)   # Run test on model
+
+
+
 """
 from sklearn.naive_bayes import MultinomialNB
 NBclassifier = MultinomialNB().fit(X_train, Y_train)
