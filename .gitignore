@@ -1,4 +1,5 @@
 *.zip
+*.gz
 /Scanner
 .vscode
 scanneroutputandnistclassifications/TF-IDF/Chuba/lib/__pycache__/
