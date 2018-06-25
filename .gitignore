@@ -1,5 +1,6 @@
 *.zip
 *.gz
 /Scanner
-.vscode
+.vscode/
+.spyproject/
 scanneroutputandnistclassifications/TF-IDF/Chuba/lib/__pycache__/
