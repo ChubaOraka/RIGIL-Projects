@@ -5,6 +5,7 @@ Created on Mon Jun  4 15:42:47 2018
 @author: hungn
 """
 
+import numpy as np
 import pandas as pd
 #import numpy as np
 import nltk
@@ -51,9 +52,23 @@ X_train_tfidf.shape
 X_final_validate_tfidf = tfidf_transformer.transform(X_final_validate_result)
 X_final_validate_tfidf.shape
 
-#LOAD Y LABEL DATA
-y_train = data['name']
+# Modifying elements under column titled "supplemental"
+#replicate = ''
+#suppl = []
+for i,info in enumerate(data["supplemental"]):
+    if type(info) == str:
+        replicate = info
+#        suppl.append(info)
+    else:
+        data["supplemental"][i] = replicate
 
+
+
+
+#LOAD Y LABEL DATA
+#data['modified description'] = data['name']
+#y_train = data['modified description']
+y_train = data['name']
 
 #Encoding categorical data ( Y Labels to categories)
 from sklearn.preprocessing import LabelEncoder
