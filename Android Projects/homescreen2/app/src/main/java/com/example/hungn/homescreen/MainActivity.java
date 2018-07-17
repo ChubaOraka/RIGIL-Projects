@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,6 +40,10 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.view.View.SYSTEM_UI_FLAG_FULLSCREEN;
+import static android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+import static android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
 public class MainActivity extends AppCompatActivity {
     Button referenceButton;
     ImageButton accountinfo;
@@ -46,12 +51,15 @@ public class MainActivity extends AppCompatActivity {
     Typeface tf1;
     Typeface tf2;
     LinearLayout levelMenu;
+    View title;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         referenceButton = (Button) findViewById(R.id.referenceButton);
         tf1 = Typeface.createFromAsset(getAssets(), "font.ttf");
@@ -72,12 +80,18 @@ public class MainActivity extends AppCompatActivity {
         ImageView backgroundLevel;
         ProgressBar progressBar;
 
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        lp.rightMargin = 30;
+
         View child1 = getLayoutInflater().inflate(R.layout.level, null);
         TextView title = child1.findViewById(R.id.textView);
         title.setText("Compass Heading");
         progressBar = (ProgressBar) child1.findViewById(R.id.progressBar);
         progressBar.setProgress(80); // 0 <= value <= 100
-        levelMenu.addView(child1);
+//        setMargins(child1, 50, 10, 50, 10);
+
+
+        levelMenu.addView(child1, lp);
 
         View child2 = getLayoutInflater().inflate(R.layout.level, null);
         title = child2.findViewById(R.id.textView);
@@ -86,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
         backgroundLevel.setBackgroundResource(R.drawable.level2);
         progressBar = (ProgressBar) child1.findViewById(R.id.progressBar);
         progressBar.setProgress(60); //
+//        setMargins(child2, 50, 10, 50, 10);
 
-        levelMenu.addView(child2);
+        levelMenu.addView(child2, lp);
 
         View child3 = getLayoutInflater().inflate(R.layout.level, null);
         title = child3.findViewById(R.id.textView);
@@ -96,14 +111,16 @@ public class MainActivity extends AppCompatActivity {
         backgroundLevel.setBackgroundResource(R.drawable.level3);
         progressBar = (ProgressBar) child1.findViewById(R.id.progressBar);
         progressBar.setProgress(90); //
-        levelMenu.addView(child3);
+//        setMargins(child3, 50, 10, 50, 10);
+        levelMenu.addView(child3, lp);
 
         View child4 = getLayoutInflater().inflate(R.layout.level, null);
         title = child4.findViewById(R.id.textView);
         title.setText("Simulated Aircraft");
         backgroundLevel = child4.findViewById(R.id.imageView);
         backgroundLevel.setBackgroundResource(R.drawable.level4);
-        levelMenu.addView(child4);
+//        setMargins(child4, 50, 10, 50, 10);
+        levelMenu.addView(child4, lp);
 
         View child5 = getLayoutInflater().inflate(R.layout.level, null);
         title = child5.findViewById(R.id.textView);
@@ -111,8 +128,9 @@ public class MainActivity extends AppCompatActivity {
         backgroundLevel = child5.findViewById(R.id.imageView);
         backgroundLevel.setBackgroundResource(R.drawable.level5);
         progressBar = (ProgressBar) child1.findViewById(R.id.progressBar);
+//        setMargins(child5, 50, 10, 50, 10);
         progressBar.setProgress(120); //
-        levelMenu.addView(child5);
+        levelMenu.addView(child5, lp);
 
         new ParticleSystem(this, 50, R.drawable.stareffect, 6000)
 		.setSpeedByComponentsRange(-0.1f, 0.1f, -0.1f, 0.02f)
@@ -158,14 +176,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        final ParticleSystem ps = new ParticleSystem(this, 10, R.drawable.diamond, 2500)
+        final ParticleSystem ps = new ParticleSystem(this, 30, R.drawable.diamond, 2500)
                 .setSpeedModuleAndAngleRange(0f, 0.03f, 90, 360)
 //                            .setSpeedByComponentsRange(-0.1f, 0.1f, -0.1f, 0.02f)
 //                            .setInitialRotationRange(0, 180)
 //                            .setRotationSpeed(144)
 //                            .setAcceleration(0.000001f, 90)
                 .addModifier(new AlphaModifier(1, 2, 1, 1500))
-                .addModifier(new ScaleModifier(1f, 2f, 1, 2000))
+                .addModifier(new ScaleModifier(0.5f, 1f, 1, 2000))
                 .setFadeOut(1000);
         ps.emit(midX, midY, 5);
 
