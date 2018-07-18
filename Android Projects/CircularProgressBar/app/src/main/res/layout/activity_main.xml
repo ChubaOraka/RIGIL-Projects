@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_bright"
+    tools:context=".MainActivity">
+
+    <!--<ProgressBar-->
+    <!--android:id="@+id/progressBar"-->
+    <!--style="?android:attr/progressBarStyle"-->
+    <!--android:layout_width="55dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--tools:layout_editor_absoluteX="124dp"-->
+    <!--tools:layout_editor_absoluteY="11dp" />-->
+
+    <com.budiyev.android.circularprogressbar.CircularProgressBar
+        android:id="@+id/progress_bar_white_background"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:animateProgress="true"
+        app:backgroundStrokeColor="@android:color/white"
+        app:backgroundStrokeWidth="10dp"
+        app:drawBackgroundStroke="false"
+        app:foregroundStrokeCap="round"
+        app:foregroundStrokeColor="@android:color/white"
+        app:foregroundStrokeWidth="10dp"
+        app:indeterminateMinimumAngle="45"
+        app:indeterminate="false"
+        app:indeterminateRotationAnimationDuration="1200"
+        app:indeterminateSweepAnimationDuration="600"
+        app:maximum="100"
+        app:progress="75"
+        app:progressAnimationDuration="2000"
+        app:startAngle="135" />
+
+    <com.budiyev.android.circularprogressbar.CircularProgressBar
+        android:id="@+id/progress_bar_orange_foreground"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:animateProgress="true"
+        app:backgroundStrokeColor="@android:color/holo_orange_dark"
+        app:backgroundStrokeWidth="10dp"
+        app:drawBackgroundStroke="false"
+        app:foregroundStrokeCap="round"
+        app:foregroundStrokeColor="@android:color/holo_orange_dark"
+        app:foregroundStrokeWidth="10dp"
+        app:indeterminateMinimumAngle="45"
+        app:indeterminate="false"
+        app:indeterminateRotationAnimationDuration="1200"
+        app:indeterminateSweepAnimationDuration="600"
+        app:maximum="100"
+        app:progress="0"
+        app:progressAnimationDuration="2000"
+        app:startAngle="135" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="144dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="128dp"
+        android:layout_marginStart="128dp"
+        android:text="Button"
+        app:layout_constraintStart_toEndOf="@+id/progress_bar_orange_foreground"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="29dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="0%"
+        app:layout_constraintBottom_toBottomOf="@+id/progress_bar_orange_foreground"
+        app:layout_constraintEnd_toEndOf="@+id/progress_bar_orange_foreground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>
