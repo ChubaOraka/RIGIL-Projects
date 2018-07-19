@@ -12,7 +12,7 @@ public class levelView extends View {
         super(context, attrs);
         LayoutInflater inflater = LayoutInflater.from(context);
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.level, null, false);
-        LinearLayout linear = (LinearLayout)findViewById(R.id.levelMenu);
+        LinearLayout linear = findViewById(R.id.levelMenu);
         linear.addView(layout);
     }
 

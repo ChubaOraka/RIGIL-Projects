@@ -1,5 +1,6 @@
 package com.example.hungn.homescreen;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.plattysoft.leonids.ParticleSystem;
 import com.plattysoft.leonids.modifiers.ScaleModifier;
 import com.plattysoft.leonids.ParticleSystem;
@@ -61,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        referenceButton = (Button) findViewById(R.id.referenceButton);
+        referenceButton = findViewById(R.id.referenceButton);
         tf1 = Typeface.createFromAsset(getAssets(), "font.ttf");
 
-        accountinfo = (ImageButton) findViewById(R.id.accountinfo);
+        accountinfo = findViewById(R.id.accountinfo);
 
-        gameTitle = (TextView) findViewById(R.id.title);
+        gameTitle = findViewById(R.id.title);
         referenceButton.setText("reference");
         referenceButton.setTypeface(tf1);
         gameTitle.setTypeface(tf1);
@@ -86,8 +89,10 @@ public class MainActivity extends AppCompatActivity {
         View child1 = getLayoutInflater().inflate(R.layout.level, null);
         TextView title = child1.findViewById(R.id.textView);
         title.setText("Compass Heading");
-        progressBar = (ProgressBar) child1.findViewById(R.id.progressBar);
-        progressBar.setProgress(80); // 0 <= value <= 100
+        title.setTypeface(tf1);
+        circularProgressAnimate(child1, 80);
+//        progressBar = child1.findViewById(R.id.progressBar);
+//        progressBar.setProgress(80); // 0 <= value <= 100
 //        setMargins(child1, 50, 10, 50, 10);
 
 
@@ -96,10 +101,12 @@ public class MainActivity extends AppCompatActivity {
         View child2 = getLayoutInflater().inflate(R.layout.level, null);
         title = child2.findViewById(R.id.textView);
         title.setText("Closest Heading");
+        title.setTypeface(tf1);
         backgroundLevel = child2.findViewById(R.id.imageView);
         backgroundLevel.setBackgroundResource(R.drawable.level2);
-        progressBar = (ProgressBar) child1.findViewById(R.id.progressBar);
-        progressBar.setProgress(60); //
+        circularProgressAnimate(child2, 60);
+//        progressBar = child1.findViewById(R.id.progressBar);
+//        progressBar.setProgress(60); //
 //        setMargins(child2, 50, 10, 50, 10);
 
         levelMenu.addView(child2, lp);
@@ -107,29 +114,35 @@ public class MainActivity extends AppCompatActivity {
         View child3 = getLayoutInflater().inflate(R.layout.level, null);
         title = child3.findViewById(R.id.textView);
         title.setText("Absolute Heading");
+        title.setTypeface(tf1);
         backgroundLevel = child3.findViewById(R.id.imageView);
         backgroundLevel.setBackgroundResource(R.drawable.level3);
-        progressBar = (ProgressBar) child1.findViewById(R.id.progressBar);
-        progressBar.setProgress(90); //
+        circularProgressAnimate(child3, 90);
+//        progressBar = child1.findViewById(R.id.progressBar);
+//        progressBar.setProgress(90); //
 //        setMargins(child3, 50, 10, 50, 10);
         levelMenu.addView(child3, lp);
 
         View child4 = getLayoutInflater().inflate(R.layout.level, null);
         title = child4.findViewById(R.id.textView);
         title.setText("Simulated Aircraft");
+        title.setTypeface(tf1);
         backgroundLevel = child4.findViewById(R.id.imageView);
         backgroundLevel.setBackgroundResource(R.drawable.level4);
+        circularProgressAnimate(child4, 11);
 //        setMargins(child4, 50, 10, 50, 10);
         levelMenu.addView(child4, lp);
 
         View child5 = getLayoutInflater().inflate(R.layout.level, null);
         title = child5.findViewById(R.id.textView);
         title.setText("Wind Effects");
+        title.setTypeface(tf1);
         backgroundLevel = child5.findViewById(R.id.imageView);
         backgroundLevel.setBackgroundResource(R.drawable.level5);
-        progressBar = (ProgressBar) child1.findViewById(R.id.progressBar);
+        circularProgressAnimate(child5, 50);
+//        progressBar = child1.findViewById(R.id.progressBar);
 //        setMargins(child5, 50, 10, 50, 10);
-        progressBar.setProgress(120); //
+//        progressBar.setProgress(120); //
         levelMenu.addView(child5, lp);
 
 //        new ParticleSystem(this, 50, R.drawable.stareffect, 6000)
@@ -148,6 +161,41 @@ public class MainActivity extends AppCompatActivity {
 //                .emit(findViewById(R.id.screenView), 100);
 
 
+    }
+
+
+    private void circularProgressAnimate(View currentView, float progress) {
+        final CircularProgressBar foregroundProgressBar = currentView.findViewById(R.id.progress_bar_orange_foreground);
+        final TextView progressText = currentView.findViewById(R.id.progressPercentage);
+        final float value = progress;
+
+        // Setting up handler to delay execution of animation
+        final Handler handler = new Handler();
+        // Define the code block to be executed
+        Runnable runnableCode = new Runnable() {
+            @Override
+            public void run() {
+                final float progress = value;
+                foregroundProgressBar.setProgress(progress * 75 / 100);
+
+                ValueAnimator progressAnimator = ValueAnimator.ofFloat(10, 100);
+                progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float animatedValue = (float) animation.getAnimatedValue();
+                        System.out.println("Kien: " + animatedValue);
+                        progressText.setText(((int) progress) + "%");
+                    }
+                });
+
+//                System.out.println("emiterX: " + emiterX + "\nemiterY: " + emiterY);
+//                handler.postDelayed(this, 500);
+
+                progressAnimator.start();
+            }
+        };
+        // Run the above code block on the main thread after 2 seconds
+        handler.postDelayed(runnableCode, 3000);
     }
 
     protected void onStart() {
